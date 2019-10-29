@@ -1,6 +1,22 @@
+const socket = io();
 const firstRoll = document.getElementById("p1-roll");
 const secondRoll = document.getElementById("p2-roll");
 const thirdRoll = document.getElementById("p3-roll");
+const template = document.querySelectorAll(".template"); // returns an array
+
+socket.on('message', (mes) => {
+
+    template.forEach((e) => {
+        var str = '';
+        for (var p in mes) {
+            if (mes.hasOwnProperty(p)) {
+                str += p + ':' + mes[p] + '<br />';
+            }
+        }
+        e.innerHTML = str;
+    });
+});
+
 
 let player_1 = {
     name: 'Player 1',
@@ -11,13 +27,13 @@ let player_1 = {
 let player_2 = {
     name: 'Player 2',
     sum: 0,
-    count: 1
+    count: 1,
 };
 
 let player_3 = {
     name: 'Player 3',
     sum: 0,
-    count: 1
+    count: 1,
 };
 
 const p1Roll = () => {
@@ -27,7 +43,13 @@ const p1Roll = () => {
 
     player_1.sum += num;
     player_1.count++;
-    document.getElementById("p1-score").innerHTML = player_1.sum;
+    //document.getElementById("p1-score").innerHTML = player_1.sum;
+
+    socket.emit('send-Data', {
+        player1_score: player_1.sum,
+        player2_score: 0,
+        player3_score: 0,
+    });
 
     if (player_1.count > 3) {
         document.getElementById("player_1").classList.remove('active');
@@ -46,7 +68,15 @@ const p2Roll = () => {
 
     player_2.sum += num;
     player_2.count++;
-    document.getElementById("p2-score").innerHTML = player_2.sum;
+    player_2.current = num;
+    //document.getElementById("p2-score").innerHTML = player_2.sum;
+
+    socket.emit('send-Data', {
+        player1_score: player_1.sum,
+        player2_score: player_2.sum,
+        player3_score: 0
+
+    });
 
     if (player_2.count > 3) {
         document.getElementById("player_2").classList.remove('active');
@@ -64,7 +94,15 @@ const p3Roll = () => {
 
     player_3.sum += num;
     player_3.count++;
-    document.getElementById("p3-score").innerHTML = player_3.sum;
+    player_3.current = num;
+    //document.getElementById("p3-score").innerHTML = player_3.sum;
+
+    socket.emit('send-Data', {
+        player1_score: player_1.sum,
+        player2_score: player_2.sum,
+        player3_score: player_3.sum,
+
+    });
 
     if (player_3.count > 3) {
         document.getElementById("player_3").classList.remove('active');

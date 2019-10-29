@@ -6,17 +6,21 @@ body {
     padding: 50px;
     display: flex;
     justify-content: space-around;
+    
 }
 .player-area{
     border: 2px solid gray;
     border-radius: 5px;
     text-align: center;
     padding: 15px 50px;
+    background-color: rgb(241, 230, 219)
 }
 
 #player_1, #player_2, #player_3 {
     padding: 10px;
     border-radius: 5 px;
+    font-size: 25px
+    
 }
 
 .active {
@@ -31,4 +35,11 @@ body {
     border: 50px;
     text-align: center;
     padding: 15px 50px;
+    background-color: brown;
+    font-size: 30px;
+}
+
+.template {
+    border: 2px solid gray;
+    text-align: center;
 }
